@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Urban Giftionary</title>
+	<link rel="stylesheet" type="text/css" href="https://necolas.github.io/normalize.css/6.0.0/normalize.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+	<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+</head>
+<body>
+	<nav class="navbar navbar-default navbar-fixed-top">
+	  	<div class="container">
+	  		<h1>
+	  			<a href="index.html">Urban Giphtionary</a>
+	  			<span class="pull-right">
+		  			<button class="btn btn-default" onclick="random()">Random Word/Phrase</button>
+				   	<form class="navbar-form">
+					  	<div class="form-group">
+					    	<input id="wordPhraseInput" type="text" class="form-control" placeholder="Add any word/phrase">
+					    	<button id="searchbutton" type="submit" class="btn btn-default">Submit</button>
+					  	</div>
+					</form>
+					<input id="numberOfGifs" type="number" class="form-control" placeholder="Number of gif's" value="4" min="1" max="10">
+					<button class="btn btn-default" onclick="main()">Reset Page</button>
+				</span>
+			</h1>
+	  	</div>
+	</nav>
+	<div id="stuff" class="container">
+		<div id="status" class="row">That word/phrase is not in Urban Dictionary!</div>
+		<br>
+		<div id="gifs" class="row"></div>
+	</div>
+	<script type="text/javascript" src="assets/javascript/app.js"></script>
+</body>
+</html>
