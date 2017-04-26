@@ -8,7 +8,7 @@ var gifColumnClass = `col-xl-${12/numberOfColumns} col-lg-${12/numberOfColumns} 
 var gifNumber;
 var wordPhraseAltered;
 var randomTrendingGif;
-var gifsCounted = 0;
+var randomSearchedGif;
 var words = 0;
 
 function main() {
@@ -25,17 +25,17 @@ function main() {
 			for (var i = 0; i < numberOfAutopopulatedColumns; i++) {
 				wordPhraseAltered = response1.list[i].word.replace(/ /g, '_');
 				$('#gifs').append(`
-					<div id="${wordPhraseAltered}" class="${gifColumnClass}" value="${i}" count='0' bill="true">
+					<div id="${wordPhraseAltered}" class="${gifColumnClass}" value="${i}">
 						<button class="gifButton btn btn-default">${response1.list[i].word}</button>
 						<hr>
 					</div>
 				`);
-				for (var j = 0, o = gifNumber; j < o; j++) {
-					$.ajax({
-						async: false,
-						url: giphySearchQueryUrl + wordPhraseAltered.replace(/_/g, '+'),
-						method: 'GET'
-					}).done(function(response2) {
+				$.ajax({
+					async: false,
+					url: giphySearchQueryUrl + wordPhraseAltered.replace(/_/g, '+'),
+					method: 'GET'
+				}).done(function(response2) {
+					for (var j = 0, o = gifNumber; j < o; j++) {
 						if (response2.data[j] == undefined) {
 							$(`#${wordPhraseAltered}`).append(`No (more) Giph's. Enjoy this one instead!`);
 							$.ajax({
@@ -49,13 +49,12 @@ function main() {
 							});
 						}
 						else {
-							$(`#${wordPhraseAltered}`).append(`<img class="gif" src="${response2.data[j].images.fixed_height.url}" src-still="${response2.data[j].images.fixed_height_still.url}" src-animate="${response2.data[j].images.fixed_height.url}" state="animate" alt="Powered by Giphy">`);
-							$(`#${wordPhraseAltered}`).append(`<p>Rating: ${response2.data[j].rating}</p><br>`);
+							randomSearchedGif = Math.floor(Math.random() * response2.data.length);
+							$(`#${wordPhraseAltered}`).append(`<img class="gif" src="${response2.data[randomSearchedGif].images.fixed_height.url}" src-still="${response2.data[randomSearchedGif].images.fixed_height_still.url}" src-animate="${response2.data[randomSearchedGif].images.fixed_height.url}" state="animate" alt="Powered by Giphy">`);
+							$(`#${wordPhraseAltered}`).append(`<p>Rating: ${response2.data[randomSearchedGif].rating}</p><br>`);
 						}
-					});
-					$(`#${wordPhraseAltered}`).attr('count', gifsCounted);
-					gifsCounted++;
-				}
+					}				
+				});
 				words++;
 			}
 		});
@@ -78,18 +77,18 @@ function random() {
 		}).done(function(response1) {
 			wordPhraseAltered = response1.list[0].word.replace(/ /g, '_');
 			$('#gifs').append(`
-				<div id="${wordPhraseAltered}" class="${gifColumnClass}" value="${words}" count='0' bill="true">
+				<div id="${wordPhraseAltered}" class="${gifColumnClass}" value="${words}">
 					<button class="gifButton btn btn-default">${response1.list[0].word}</button>
 					<hr>
 				</div>
 			`);
-			for (var j = 0, o = gifNumber; j < o; j++) {
-				$.ajax({
-					async: false,
-					url: giphySearchQueryUrl + wordPhraseAltered.replace(/_/g, '+'),
-					method: 'GET'
-				}).done(function(response2) {
-					if (response2.data[j] == undefined) {
+			$.ajax({
+				async: false,
+				url: giphySearchQueryUrl + wordPhraseAltered.replace(/_/g, '+'),
+				method: 'GET'
+			}).done(function(response2) {
+				for (var i = 0, o = gifNumber; i < o; i++) {
+					if (response2.data[i] == undefined) {
 						$(`#${wordPhraseAltered}`).append(`No (more) Giph's. Enjoy this one instead!`);
 						$.ajax({
 							async: false,
@@ -102,13 +101,12 @@ function random() {
 						});
 					}
 					else {
-						$(`#${wordPhraseAltered}`).append(`<img class="gif" src="${response2.data[j].images.fixed_height.url}" src-still="${response2.data[j].images.fixed_height_still.url}" src-animate="${response2.data[j].images.fixed_height.url}" state="animate" alt="Powered by Giphy">`);
-						$(`#${wordPhraseAltered}`).append(`<p>Rating: ${response2.data[j].rating}</p><br>`);
+						randomSearchedGif = Math.floor(Math.random() * response2.data.length);
+						$(`#${wordPhraseAltered}`).append(`<img class="gif" src="${response2.data[randomSearchedGif].images.fixed_height.url}" src-still="${response2.data[randomSearchedGif].images.fixed_height_still.url}" src-animate="${response2.data[randomSearchedGif].images.fixed_height.url}" state="animate" alt="Powered by Giphy">`);
+						$(`#${wordPhraseAltered}`).append(`<p>Rating: ${response2.data[randomSearchedGif].rating}</p><br>`);
 					}
-				});
-				$(`#${wordPhraseAltered}`).attr('count', gifsCounted);
-				gifsCounted++;
-			}
+				}		
+			});
 			words++;
 		});
 	}
@@ -155,18 +153,18 @@ $("#searchbutton").on("click", function() {
 				else {
 					$('#status').hide();
 					$('#gifs').append(`
-						<div id="${wordPhraseAltered}" class="${gifColumnClass}" value="${words}" count='0' bill="true">
+						<div id="${wordPhraseAltered}" class="${gifColumnClass}" value="${words}">
 							<button class="gifButton btn btn-default">${wordPhraseAltered.replace(/_/g, ' ')}</button>
 							<hr>
 						</div>
 					`);
-					for (var j = 0, o = gifNumber; j < o; j++) {
-						$.ajax({
-							async: false,
-							url: giphySearchQueryUrl + wordPhraseAltered.replace(/_/g, '+'),
-							method: 'GET'
-						}).done(function(response2) {
-							if (response2.data[j] == undefined) {
+					$.ajax({
+						async: false,
+						url: giphySearchQueryUrl + wordPhraseAltered.replace(/_/g, '+'),
+						method: 'GET'
+					}).done(function(response2) {
+						for (var i = 0, o = gifNumber; i < o; i++) {
+							if (response2.data[i] == undefined) {
 								$(`#${wordPhraseAltered}`).append(`No (more) Giph's. Enjoy this one instead!`);
 								$.ajax({
 									async: false,
@@ -179,13 +177,12 @@ $("#searchbutton").on("click", function() {
 								});
 							}
 							else {
-								$(`#${wordPhraseAltered}`).append(`<img class="gif" src="${response2.data[j].images.fixed_height.url}" src-still="${response2.data[j].images.fixed_height_still.url}" src-animate="${response2.data[j].images.fixed_height.url}" state="animate" alt="Powered by Giphy">`);
-								$(`#${wordPhraseAltered}`).append(`<p>Rating: ${response2.data[j].rating}</p><br>`);
+								randomSearchedGif = Math.floor(Math.random() * response2.data.length);
+								$(`#${wordPhraseAltered}`).append(`<img class="gif" src="${response2.data[randomSearchedGif].images.fixed_height.url}" src-still="${response2.data[randomSearchedGif].images.fixed_height_still.url}" src-animate="${response2.data[randomSearchedGif].images.fixed_height.url}" state="animate" alt="Powered by Giphy">`);
+								$(`#${wordPhraseAltered}`).append(`<p>Rating: ${response2.data[randomSearchedGif].rating}</p><br>`);
 							}
-						});
-						$(`#${wordPhraseAltered}`).attr('count', gifsCounted);
-						gifsCounted++;
-					}
+						}	
+					});
 					words++;
 				}
 			});
@@ -198,39 +195,42 @@ $("#searchbutton").on("click", function() {
 });
 
 $(document).on('click', '.gifButton', function() {
-	wordPhraseAltered = $(this).text();
+	event.preventDefault();
 
-	$('.' + wordPhraseAltered).html(`<button class="gifButton btn btn-default">${wordPhraseAltered}</button><hr>`);
+	gifNumber = parseInt($('#numberOfGifs').val());
+	wordPhraseAltered = $(this).text().replace(/ /g, '_');
 
-	$.ajax({
-		async: false,
-		url: giphySearchQueryUrl + wordPhraseAltered.replace(/ /g, '+') + '&limit=100',
-		method: 'GET'
-	}).done(function(response2) {
-		var gifCount = parseInt($('.' + wordPhraseAltered).attr('count'));
-		var underOneHundo = $('.' + wordPhraseAltered).attr('bill')
-		if (underOneHundo) {
-			for (var j = gifCount, o = gifCount + parseInt($('#numberOfGifs').val()); j < o; j++) {
-				$('.' + wordPhraseAltered).append(`<img class="gif" src="${response2.data[j].images.fixed_height.url}" src-still="${response2.data[j].images.fixed_height_still.url}" src-animate="${response2.data[j].images.fixed_height.url}" state="animate" alt="Powered by Giphy">`);
-				$('.' + wordPhraseAltered).append(`<p>Rating: ${response2.data[j].rating}</p><br>`);
-				gifCount++;
-				if (gifCount >= 99) {
-					underOneHundo = false;
+	$('#' + wordPhraseAltered).html(`<button class="gifButton btn btn-default">${wordPhraseAltered.replace(/_/g, ' ')}</button><hr>`);
+
+	if (gifNumber >= 1 && gifNumber <= 10) {
+		$.ajax({
+			async: false,
+			url: giphySearchQueryUrl + wordPhraseAltered.replace(/_/g, '+') + '&limit=100',
+			method: 'GET'
+		}).done(function(response1) {
+			for (var i = 0, o = gifNumber; i < o; i++) {	
+				if (response1.data[i] == undefined) {
+					$(`#${wordPhraseAltered}`).append(`No (more) Giph's. Enjoy this one instead!`);
+					$.ajax({
+						async: false,
+						url: giphyTrendingQueryUrl,
+						method: 'GET'
+					}).done(function(response3) {
+						randomTrendingGif = Math.floor(Math.random() * 100);
+						$(`#${wordPhraseAltered}`).append(`<img class="gif" src="${response3.data[randomTrendingGif].images.fixed_height.url}" src-still="${response3.data[randomTrendingGif].images.fixed_height_still.url}" src-animate="${response3.data[randomTrendingGif].images.fixed_height.url}" state="animate" alt="Powered by Giphy">`);
+						$(`#${wordPhraseAltered}`).append(`<p>Rating: ${response3.data[randomTrendingGif].rating}</p><br>`);	
+					});
 				}
-			}
-			$('.' + wordPhraseAltered).attr('count', gifCount);
-			$('.' + wordPhraseAltered).attr('bill', underOneHundo);
-			console.log($('.' + wordPhraseAltered).attr('bill'));
-		}
-		else if (!underOneHundo) {
-			for (var i = 0, n = parseInt($('#numberOfGifs').val()); i < n; i++) {
-				gifCount = Math.floor(Math.random() * 100);
-				$('.' + wordPhraseAltered).append(`<img class="gif" src="${response2.data[gifCount].images.fixed_height.url}" src-still="${response2.data[gifCount].images.fixed_height_still.url}" src-animate="${response2.data[gifCount].images.fixed_height.url}" state="animate" alt="Powered by Giphy">`);
-				$('.' + wordPhraseAltered).append(`<p>Rating: ${response2.data[gifCount].rating}</p><br>`);
-			}
-			$('.' + wordPhraseAltered).attr('count', gifCount);
-			$('.' + wordPhraseAltered).attr('bill', underOneHundo);
-		}	
-	});
-	console.log($('.' + wordPhraseAltered).attr('count'));
+				else {
+					randomSearchedGif = Math.floor(Math.random() * response1.data.length);
+					$(`#${wordPhraseAltered}`).append(`<img class="gif" src="${response1.data[randomSearchedGif].images.fixed_height.url}" src-still="${response1.data[randomSearchedGif].images.fixed_height_still.url}" src-animate="${response1.data[randomSearchedGif].images.fixed_height.url}" state="animate" alt="Powered by Giphy">`);
+					$(`#${wordPhraseAltered}`).append(`<p>Rating: ${response1.data[randomSearchedGif].rating}</p><br>`);
+				}
+			}	
+		});
+	}
+	else {
+		$('#status').text(`Invalid number of gif's!`);
+    	$('#status').show();
+	}
 });
