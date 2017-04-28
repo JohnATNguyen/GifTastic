@@ -2,7 +2,7 @@ var urbanRandomQueryUrl = "https://api.urbandictionary.com/v0/random"
 var urbanDefineQueryUrl = "https://api.urbandictionary.com/v0/define?term="
 var giphySearchQueryUrl = "https://api.giphy.com/v1/gifs/search?api_key=dc6zaTOxFJmzC&q="
 var giphyTrendingQueryUrl = "https://api.giphy.com/v1/gifs/trending?api_key=dc6zaTOxFJmzC&limit=100"
-var numberOfAutopopulatedColumns = 8;
+var numberOfAutopopulatedColumns = 2;
 var numberOfColumns = 6;
 var gifColumnClass = `col-xl-${12/numberOfColumns} col-lg-${12/numberOfColumns} col-md-${12/numberOfColumns} col-sm-${12/numberOfColumns} col-xs-${12/numberOfColumns}`
 var col = 1;
