@@ -13,6 +13,8 @@ var randomTrendingGif;
 var randomSearchedGif;
 
 function main() {
+	col = 1;
+	row = 0;
 	gifNumber = parseInt($('#numberOfGifs').val());
 
 	if (gifNumber >= 1 && gifNumber <= 10) {
